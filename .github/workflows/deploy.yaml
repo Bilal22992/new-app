@@ -1,4 +1,4 @@
-name: Deploy
+name: Build and Push Docker Image
 
 on:
   push:
@@ -10,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Set Image Tag
+        id: vars
+        run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -19,8 +23,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build image
-        run: docker build -t bilal22992/myapp:latest .
+      - name: Build Docker Image
+        run: |
+          docker build -t YOUR_USERNAME/myapp:$TAG .
+          docker tag YOUR_USERNAME/myapp:$TAG YOUR_USERNAME/myapp:latest
 
-      - name: Push image
-        run: docker push bilal22992/myapp:latest
+      - name: Push Docker Images
+        run: |
+          docker push YOUR_USERNAME/myapp:$TAG
+          docker push YOUR_USERNAME/myapp:latest
