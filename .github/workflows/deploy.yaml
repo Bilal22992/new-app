@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build image
-        run: docker build -t bilal22992/myapp:latest .
+        run: docker build --no-cache -t bilal22992/myapp:latest .
 
       - name: Push image
         run: docker push bilal22992/myapp:latest
