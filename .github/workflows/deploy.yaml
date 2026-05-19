@@ -26,7 +26,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t bilal22992/myapp:$TAG .
-          docker tag bilal22992/myapp:$TAG YOUR_USERNAME/myapp:latest
+          docker tag bilal22992/myapp:$TAG bilal22992/myapp:latest
 
       - name: Push Docker Images
         run: |
